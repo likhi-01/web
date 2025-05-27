@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Web Project</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      text-align: center;
+    }
+    form, .todo {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background: #007BFF;
+      color: #fff;
+      border: none;…
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Web Project</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #e9f0f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      text-align: center;
+      color: #2a5d9f;
+    }
+    form, .todo {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: #2a5d9f;
+      outline: none;
+    }
+    button {
+      padding: 10px;
+      background: #2a5d9f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #1b4478;
+    }
+    .todo-item {
+      background: #dbe9f4;
+      margin: 8px 0;
+      padding: 10px;
+      border-left: 5px solid #2a5d9f;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #msg {
+      color: #d8000c;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+    @media(max-width:600px){
+      body { font-size: 14px; padding: 10px; }
+      form, .todo { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Contact Form</h2>
+  <form id="form">
+    <input id="name" placeholder="Name">
+    <input id="email" placeholder="Email">
+    <input id="subject" placeholder="Subject">
+    <button type="submit">Send</button>
+    <p id="msg"></p>
+  </form>
+
+  <h2>To-Do List</h2>
+  <div class="todo">
+    <input id="task" placeholder="New Task">
+    <button onclick="addTask()">Add</button>
+    <div id="list"></div>
+  </div>
+
+  <script>
+    form.onsubmit = e => {
+      e.preventDefault();
+      let msg = "", email = form.email.value;
+      if (!form.name.value || !email || !form.subject.value) msg = "All fields required.";
+      else if (!/\S+@\S+\.\S+/.test(email)) msg = "Invalid email.";
+      else {
+        alert("Form submitted!");
+        msgEl.innerText = "";
+        form.reset();
+      }
+      if (msg) msgEl.innerText = msg;
+    };
+    const msgEl = document.getElementById("msg");
+
+    function addTask() {
+      const val = task.value.trim();
+      if (!val) return;
+      const div = document.createElement("div");
+      div.className = "todo-item";
+      div.innerText = val;
+      div.onclick = () => div.remove();
+      list.appendChild(div);
+      task.value = "";
+    }
+  </script>
+
+</body>
+</html>
