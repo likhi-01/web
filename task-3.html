@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Styling and JavaScript - Combined</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #4caf50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* Responsive Layout Section */
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 20px;
+      max-width: 1000px;
+      margin: 20px auto;
+    }
+
+    .box {
+      width: 30%;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .box:hover {
+      background-color: #d0f0e0;
+    }
+
+    .box h2 {
+      margin-bottom: 15px;
+      color: #2e7d32;
+    }
+
+    /* Quiz and API sections styling */
+    section {
+      background: white;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 800px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    h2 {
+      text-align: center;
+      color: #4caf50;
+      margin-bottom: 15px;
+    }
+
+    /* Responsive Quiz Styles */
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .options li {
+      margin-bottom: 8px;
+      background: #e3e3e3;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      list-style-type: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .options li:hover {
+      background: #c8e6c9;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    button {
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: 15px auto 0;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #jokeBox {
+      margin-top: 10px;
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      min-height: 60px;
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* Responsive Media Queries */
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .box {
+        width: 80%;
+        margin-bottom: 20px;
+      }
+
+      header {
+        font-size: 24px;
+      }
+
+      .question {
+        font-size: 16px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      header {
+        font-size: 20px;
+        background-color: #333;
+      }
+
+      .box {
+        width: 95%;
+        background-color: #e0f7fa;
+      }
+
+      .box h2 {
+        font-size: 20px;
+        color: #00796b;
+      }
+
+      .options li {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>Advanced Styling and JavaScript Demo</header>
+
+  <!-- Responsive Layout -->
+  <div class="container">
+    <div class="box">
+      <h2>Box 1</h2>
+      <p>This box is part of a responsive layout demo.</p>
+    </div>
+    <div class="box">
+      <h2>Box 2</h2>
+      <p>Resize your screen or view on mobile to see changes.</p>
+    </div>
+    <div class="box">
+      <h2>Box 3</h2>
+      <p>Boxes stack vertically on tablets and change color on phones.</p>
+    </div>
+  </div>
+
+  <!-- Interactive Quiz Section -->
+  <section>
+    <h2>Interactive Quiz</h2>
+    <div id="quizContainer">
+      <div class="question" id="quizQuestion">Loading...</div>
+      <ul class="options" id="quizOptions"></ul>
+      <button id="nextBtn" style="display:none;">Next</button>
+      <div class="result" id="quizResult"></div>
+    </div>
+  </section>
+
+  <!-- API Fetch Section -->
+  <section>
+    <h2>Fetch a Random Joke (API)</h2>
+    <button onclick="getJoke()">Get Joke</button>
+    <div id="jokeBox">Click the button to load a joke!</div>
+  </section>
+
+  <script>
+    // Quiz Data
+    const questions = [
+      {
+        question: "What does CSS stand for?",
+        options: ["Creative Style Sheets", "Cascading Style Sheets", "Computer Style Sheets"],
+        answer: 1
+      },
+      {
+        question: "Which tag is used for JavaScript?",
+        options: ["<script>", "<javascript>", "<js>"],
+        answer: 0
+      },
+      {
+        question: "What is the purpose of media queries?",
+        options: ["Data transfer", "Responsive Design", "Color changing"],
+        answer: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("quizQuestion");
+    const optionsEl = document.getElementById("quizOptions");
+    const nextBtn = document.getElementById("nextBtn");
+    const resultEl = document.getElementById("quizResult");
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      nextBtn.style.display = "none";
+      resultEl.textContent = "";
+      q.options.forEach((opt, idx) => {
+        const li = document.createElement("li");
+        li.textContent = opt;
+        li.onclick = () => checkAnswer(idx, q.answer, li);
+        optionsEl.appendChild(li);
+      });
+    }
+
+    function checkAnswer(selected, correct, li) {
+      if (selected === correct) {
+        li.style.backgroundColor = "lightgreen";
+        score++;
+      } else {
+        li.style.backgroundColor = "salmon";
+        optionsEl.children[correct].style.backgroundColor = "lightgreen";
+      }
+
+      [...optionsEl.children].forEach(el => el.style.pointerEvents = "none");
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        questionEl.textContent = "Quiz Completed!";
+        optionsEl.innerHTML = "";
+        resultEl.textContent = `Your Score: ${score} / ${questions.length}`;
+        nextBtn.style.display = "none";
+      }
+    };
+
+    loadQuestion();
+
+    // Joke API Fetch
+    function getJoke() {
+      const jokeBox = document.getElementById("jokeBox");
+      jokeBox.textContent = "Loading...";
+      fetch("https://official-joke-api.appspot.com/random_joke")
+        .then(res => res.json())
+        .then(data => {
+          jokeBox.textContent = `${data.setup} — ${data.punchline}`;
+        })
+        .catch(err => {
+          jokeBox.textContent = "Failed to fetch a joke.";
+        });
+    }
+  </script>
+</body>
+</html>
